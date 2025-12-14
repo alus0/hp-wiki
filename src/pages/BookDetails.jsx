@@ -43,7 +43,7 @@ export default function BookDetail() {
         to="/books"
         className="underline mt-6 inline-block text-green-400 hover:text-green-300"
       >
-        ← Back to Books
+        Back to Books
       </Link>
     </div>
   );
