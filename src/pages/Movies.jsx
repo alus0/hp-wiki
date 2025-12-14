@@ -6,16 +6,25 @@ import noImg from "../assets/noImg.jpg";
 export default function Movies() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     getMovies().then((data) => {
       setMovies(data);
       setLoading(false);
+    })
+    .catch(() => {
+      setError("Failed to load movies");
+      setLoading(false);
     });
-  }, []);
+}, []);
 
   if (loading) {
     return <p className="text-center text-white">Loading movies...</p>;
+  }
+
+  if (error) {
+    return <p className="text-center text-red-500 mt-10">{error}</p>;
   }
 
   return (

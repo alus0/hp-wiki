@@ -10,15 +10,21 @@ export default function Staff() {
   const [search, setSearch] = useState("");
   const [wizard, setWizard] = useState("all");
   const [alive , setAlive] = useState("all");
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     getStaff().then((data) => {
       setStaff(data);
       setLoading(false);
+    })
+    .catch(() => {
+      setError("Failed to load staff");
+      setLoading(false);
     });
-  }, []);
+}, []);
 
   if (loading) return <p className="text-center text-white">Loading staff...</p>;
+  if (error) return <p className="text-center text-red-500 mt-10">{error}</p>;
 
   const filteredStaff = staff.filter((p) =>
   p.name.toLowerCase().includes(search.toLowerCase()) &&

@@ -7,15 +7,21 @@ export default function Spells() {
   const [loading, setLoading] = useState(true);
   const [selectedSpells, setSelectedSpells] = useState(null);
   const [visibleNo, setVisibleNo] = useState(9);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     getSpells().then((data) => {
       setSpells(data);
       setLoading(false);
+    })
+    .catch(() => {
+      setError("Failed to load spells");
+      setLoading(false);
     });
   }, []);
 
   if (loading) return <p className="text-center text-white">Loading spells...</p>;
+  if (error) return <p className="text-center text-red-500 mt-10">{error}</p>;
 
   return (
     <div className="w-full px-4 mt-10">

@@ -10,15 +10,24 @@ export default function Student() {
   const [search, setSearch] = useState("");
   const [wizard, setWizard] = useState("all");
   const [alive , setAlive] = useState("all");
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    getStudent().then((data) => {
+useEffect(() => {
+  getStudent()
+    .then((data) => {
       setStudent(data);
       setLoading(false);
+    })
+    .catch(() => {
+      setError("Failed to load students");
+      setLoading(false);
     });
-  }, []);
+}, []);
+
 
   if (loading) return <p className="text-center text-white">Loading students...</p>;
+
+  if (error) return <p className="text-center text-red-500 mt-10">{error}</p>;
 
   const filteredStudent = students.filter((s) =>
   s.name.toLowerCase().includes(search.toLowerCase()) &&
