@@ -1,0 +1,57 @@
+import { useEffect, useState } from "react";
+import { getSpells } from "../api/api";
+import SpellsModal from "./SpellsModal";
+
+export default function Spells() {
+  const [spells, setSpells] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedSpells, setSelectedSpells] = useState(null);
+  const [visibleNo, setVisibleNo] = useState(9);
+
+  useEffect(() => {
+    getSpells().then((data) => {
+      setSpells(data);
+      setLoading(false);
+    });
+  }, []);
+
+  if (loading) return <p className="text-center text-white">Loading spells...</p>;
+
+  return (
+    <div className="w-full px-4 mt-10">
+      <div>
+        <h1 className="text-4xl font-bold text-center text-red-900 mb-6 drop-shadow">
+          Hogwarts Spells
+        </h1>
+        <ul className="space-y-4">
+          {spells.slice(0, visibleNo).map((s) => (
+            <li
+              key={s.name}
+              className="bg-gradient-to-r from-red-800 via-red-700 to-gray-800 text-white border border-yellow-500 p-4 rounded-xl shadow-lg flex justify-between items-center hover:shadow-yellow-300 hover:border-yellow-300 transition">
+              <span className="font-semibold tracking-wide">{s.name}</span>
+              <button onClick={() =>setSelectedSpells(s)}
+                className="bg-yellow-500 text-black px-3 py-1 rounded hover:bg-yellow-400 transition">
+                Details
+              </button>
+            </li>
+          ))}
+        </ul>
+        {visibleNo < spells.length && (
+          <button
+            onClick={() => setVisibleNo(visibleNo + 9)}
+            className="mt-4 px-4 py-2 bg-yellow-500 text-black rounded hover:bg-yellow-400 transition"
+          >
+            Load More
+          </button>
+        )}
+
+        {selectedSpells && (
+          <SpellsModal
+            spells={selectedSpells}
+            onClose={() => setSelectedSpells(null)}
+          />
+        )}
+      </div>
+    </div>
+  );
+}
