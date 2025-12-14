@@ -104,6 +104,14 @@ useEffect(() => {
         )}
 
       </div>
+      <footer className="w-full text-center text-sm py-4  mt-10">
+        <p>
+          This magic is spelled by{" "}
+          <a href="https://hp-api.onrender.com/" className="text-yellow-400 hover:text-yellow-300 underline">HP API </a>{" "}
+          and{" "}
+          <a href="https://potterdb.com/" className="text-purple-400 hover:text-purple-300 underline">PotterDB</a>
+        </p>
+      </footer>
     </div>
   );
 }
